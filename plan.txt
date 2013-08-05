@@ -1,0 +1,39 @@
+features:
+1. read database govt sources -> mark rating of routes ()
+a web crawler to look into public data and popu;lte a database with stats of crime.
+a thread reads data from this tabel and rates it, and stores it in our data.
+
+raw data table:
+streetnamt, coordinate, time, crime on(pedestrian,rickshaw, bus,cab,pvt verhicle).
+|
+| a thread will keep on updating counts of the tables mentioned below.
+| another daily thread updates rating as per counts (at 12 noon).
+|
+V
+final data table: 
+street name,coordites(null allowed), no of crime reported, time(day, afternooon, evening, night),
+finaldata table(with rating)
+streetid, timeid, type of transport(pedestrian,rickshaw,bus,cab,metro,pvt verhicle), number of crimes, rating 
+
+
+rating table:
+streetid, timeid, type of transport(pedestrian,rickshaw,bus,cab,metro,pvt verhicle), user rating (1-5)
+
+
+code to return path to the user. and data for safty rating of all the streets in the way.
+
+PS: if the safe option is metro then there is no need to plot the route!! If there is metro nearby and time is within metro running time range 
+then provide metro as a solution
+
+
+
+app:
+1. rate your location module.
+2. how safe is my current location.
+3. query safe route -> send(pt A to B) recived(path and data for safty rating of all the streets in the way.)
+4. plot this data on map
+5. table to store emergency numbers(for implememting emergency call feature ) 
+(ppt bakar)
+1. optimised smartness of the app by incorporating caching of common route queried by the user. can be helpful for the case when network is 
+unavailable to the user.
+2. backgoround caching of the routes she regularly travels.
