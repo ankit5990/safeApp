@@ -6,7 +6,7 @@
 	<session-factory>
 		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
 		<property name="hibernate.connection.password">root</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/safeAppDb</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/testSafeAppDb</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -14,5 +14,7 @@
 		<property name="format_sql">true</property>
 		<property name="use_sql_comments">false</property>
 		<property name="hibernate.hbm2ddl.auto">create</property>
+		
+		<mapping class="com.mcafee.scor.safety.model.rawData.RawData" />
 	</session-factory>
 </hibernate-configuration>
