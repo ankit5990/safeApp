@@ -18,6 +18,9 @@ public class Coordinates implements Serializable{
 	private int latitude;
 	private int longitude;
 	
+	public Coordinates() {
+	}
+	
 	public Coordinates(int latitude, int longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;

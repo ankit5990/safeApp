@@ -1,4 +1,4 @@
-package com.mcafee.scor.safety.rawData;
+package com.mcafee.scor.safety.model.rawData;
 
 import com.mcafee.scor.safety.model.Coordinates;
 import com.mcafee.scor.safety.model.TimeOfDay;
