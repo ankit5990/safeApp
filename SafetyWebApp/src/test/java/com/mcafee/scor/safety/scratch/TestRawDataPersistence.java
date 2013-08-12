@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import com.mcafee.scor.safety.common.db.CommonDbTest;
 import com.mcafee.scor.safety.model.Coordinates;
-import com.mcafee.scor.safety.model.TimeOfDay;
+import com.mcafee.scor.safety.model.Transport;
 import com.mcafee.scor.safety.model.rawData.RawData;
 
-public class Scratch extends CommonDbTest{
+public class TestRawDataPersistence extends CommonDbTest{
 	private Session session;
 	
 	
@@ -24,9 +24,10 @@ public class Scratch extends CommonDbTest{
 		try{
 			session.beginTransaction();
 			RawData rawData = new RawData();
-			rawData.setCoordinates(new Coordinates(1, -1));
-			rawData.setNumberOfCrimes(21);
-			rawData.setTimeOfDay(TimeOfDay.AFTERNOON);
+			rawData.setCoordinates(new Coordinates(-41, -34));
+			rawData.setStreetName("streetName");
+			rawData.setTime(System.currentTimeMillis());
+			rawData.setVictimTransport(Transport.PRIVATE_CAR);
 			session.save(rawData);
 			session.getTransaction().commit();
 		}finally{
