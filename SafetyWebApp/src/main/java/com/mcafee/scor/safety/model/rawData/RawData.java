@@ -4,19 +4,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import com.mcafee.scor.safety.model.Coordinates;
 import com.mcafee.scor.safety.model.TimeOfDay;
 
+/**
+ * @author SAMSUNG
+ *
+ */
+/**
+ * @author SAMSUNG
+ *
+ */
 @Entity
-@Table( name="raw_data" )
+@Table( name=RawData.TABLE_NAME )
 public class RawData {
- 	private int id;
+	public static final String TABLE_NAME = "raw_data";
+	private int id;
 	private Coordinates coordinates;
 	private int numberOfCrimes;
 	private TimeOfDay timeOfDay;
@@ -34,11 +41,18 @@ public class RawData {
 		this.id = id;
 	}
 	
+	@Transient
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}
 	public void setCoordinates(Coordinates coordinates) {
 		this.coordinates = coordinates;
+	}
+	public String getCoordinatesString() {
+		return coordinates.toString();
+	}
+	public void setCoordinatesString(String coordinates) {
+		this.coordinates = Coordinates.getFromString(coordinates);
 	}
 	public int getNumberOfCrimes() {
 		return numberOfCrimes;
@@ -52,6 +66,12 @@ public class RawData {
 	public void setTimeOfDay(TimeOfDay timeOfDay) {
 		this.timeOfDay = timeOfDay;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "RawData [id=" + id + ", coordinates=" + coordinates
+				+ ", numberOfCrimes=" + numberOfCrimes + ", timeOfDay="
+				+ timeOfDay + "]";
+	}
 	
 }

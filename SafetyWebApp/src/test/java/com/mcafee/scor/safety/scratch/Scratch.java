@@ -1,5 +1,7 @@
 package com.mcafee.scor.safety.scratch;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.junit.Test;
 
@@ -19,14 +21,31 @@ public class Scratch extends CommonDbTest{
 	
 	@Test
 	public void testSave() throws Exception {
-		session.beginTransaction();
-		RawData rawData = new RawData();
-		rawData.setCoordinates(new Coordinates(1, -1));
-		rawData.setNumberOfCrimes(21);
-		rawData.setTimeOfDay(TimeOfDay.AFTERNOON);
-		session.save(rawData);
-		session.getTransaction().commit();
-		session.close();
+		try{
+			session.beginTransaction();
+			RawData rawData = new RawData();
+			rawData.setCoordinates(new Coordinates(1, -1));
+			rawData.setNumberOfCrimes(21);
+			rawData.setTimeOfDay(TimeOfDay.AFTERNOON);
+			session.save(rawData);
+			session.getTransaction().commit();
+		}finally{
+			session.flush();
+		}
+	}
+	
+	@Test
+	public void testRead(){
+		try{
+			session.beginTransaction();
+			List<RawData> rawDataList = session.createQuery("from RawData").list();
+			System.out.println("size of raw data list = "+rawDataList.size());
+			for(RawData data : rawDataList){
+				System.out.println(data);
+			}
+		}finally{
+			session.close();
+		}
 	}
 	
 	@Override
