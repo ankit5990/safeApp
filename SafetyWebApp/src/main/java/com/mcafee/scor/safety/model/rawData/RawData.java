@@ -58,6 +58,9 @@ public class RawData {
 		this.coordinates = coordinates;
 	}
 	public String getCoordinatesString() {
+		if(coordinates == null){
+			return null;
+		}
 		return coordinates.toString();
 	}
 	public void setCoordinatesString(String coordinates) {

@@ -7,11 +7,16 @@ import junit.framework.TestCase;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-public class CommonDbTest extends TestCase{
+public abstract class CommonDbTest extends TestCase{
 	private static final String TEST_HIBERNATE_CFG_XML = "src\\test\\java\\testHibernate.cfg.xml";
 	
 	protected SessionFactory sessionFactory;
 	
+	protected SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+
 	@Override
 	protected final void setUp() throws Exception {
 		File testConfigFile = new File(TEST_HIBERNATE_CFG_XML);
@@ -25,9 +30,7 @@ public class CommonDbTest extends TestCase{
 	/**
 	 * override this to perform setup
 	 */
-	protected void caseSetup() {
-		
-	}
+	abstract protected void caseSetup();
 
 	@Override
 	protected void tearDown() throws Exception {
@@ -41,8 +44,5 @@ public class CommonDbTest extends TestCase{
 	/**
 	 * override this to perform teardown
 	 */
-	protected void caseTearDown() {
-		// TODO Auto-generated method stub
-		
-	}
+	abstract protected void caseTearDown();
 }
