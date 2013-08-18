@@ -21,4 +21,11 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
+	<bean id="com.swa.dao.RawDataDao" class="com.mcafee.scor.safety.dao.rawData.RawDataDaoImpl"
+		parent="com.swa.dao.CommonBaseDao">
+	</bean>
+	
+	<bean id="com.swa.dao.ProcessedDataDao" class="com.mcafee.scor.safety.dao.processedData.ProcessedDataDaoImpl"
+		parent="com.swa.dao.CommonBaseDao">
+	</bean>		
 </beans>

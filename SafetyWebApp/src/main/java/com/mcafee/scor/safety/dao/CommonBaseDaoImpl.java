@@ -6,6 +6,8 @@ import org.hibernate.classic.Session;
 
 import com.mcafee.scor.safety.dao.utils.DatabaseUtils;
 
+
+//TODO: refactor to not commit in the function.  
 public abstract class CommonBaseDaoImpl<T> implements CommonBaseDao<T>{
 	public SessionFactory sessionFactory;
 
@@ -18,48 +20,79 @@ public abstract class CommonBaseDaoImpl<T> implements CommonBaseDao<T>{
 	}
 	
 	public Session getSession() {
-		/*Session session = getSessionFactory().getCurrentSession();
-		if(session == null || !session.isOpen() ){
-			return session;
-		}*/
 		return getSessionFactory().openSession();
 	}
 	
 	public void closeSession(Session session){
+		if(session!=null){
+			session.flush();
+		}
 		DatabaseUtils.closeSession(session);
 	}
 
 	@Override
 	public void add(T obj){
-		Session session = getSession();
-		Transaction trans = session.beginTransaction();
-		
-		session.save(obj);
-		
-		trans.commit();
-		closeSession(session);
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			session.save(obj);
+		}finally{
+			commitTransaction(trans);
+			closeSession(session);
+		}
 	}
 
 	@Override
 	public void update(T obj) {
-		Session session = getSession();
-		Transaction trans = session.beginTransaction();
-		
-		session.update(obj);
-		
-		trans.commit();
-		closeSession(session);
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			
+			session.update(obj);
+			
+		}finally{
+			commitTransaction(trans);
+			closeSession(session);
+		}
 	}
 	
+	private void commitTransaction(Transaction trans) {
+		if(trans != null && !trans.wasCommitted()){
+			trans.commit();
+		}
+	}
+
 	@Override
 	public void addOrUpdate(T obj) {
-		Session session = getSession();
-		Transaction trans = session.beginTransaction();
-		
-		session.saveOrUpdate(obj);
-		
-		trans.commit();
-		closeSession(session);
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			
+			session.merge(obj);
+		}finally{		
+			commitTransaction(trans);
+			closeSession(session);
+		}
 	}
-	
+
+	@Override
+	public T read(Class<T> clazz,int id){
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			
+			return (T) session.get(clazz,id);
+		}finally{
+			commitTransaction(trans);
+			closeSession(session);
+		}
+	}
 }

@@ -55,6 +55,7 @@
         <property name="classesToBeBound">
             <list>
                 <value>com.mcafee.scor.safety.model.rawData.RawData</value>
+                <value>com.mcafee.scor.safety.model.processedData.ProcessedData</value>
             </list>
         </property>
     </bean>

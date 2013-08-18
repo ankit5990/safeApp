@@ -16,7 +16,7 @@ finaldata table(with rating)
 streetid, timeid, type of transport(pedestrian,rickshaw,bus,cab,metro,pvt verhicle), number of crimes, rating 
 
 
-rating table:
+user rating table:
 streetid, timeid, type of transport(pedestrian,rickshaw,bus,cab,metro,pvt verhicle), user rating (1-5)
 
 
