@@ -27,5 +27,8 @@
 	
 	<bean id="com.swa.dao.ProcessedDataDao" class="com.mcafee.scor.safety.dao.processedData.ProcessedDataDaoImpl"
 		parent="com.swa.dao.CommonBaseDao">
+	</bean>
+	
+	<bean >
 	</bean>		
 </beans>

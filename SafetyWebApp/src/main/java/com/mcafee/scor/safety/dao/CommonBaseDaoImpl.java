@@ -60,7 +60,7 @@ public abstract class CommonBaseDaoImpl<T> implements CommonBaseDao<T>{
 		}
 	}
 	
-	private void commitTransaction(Transaction trans) {
+	protected void commitTransaction(Transaction trans) {
 		if(trans != null && !trans.wasCommitted()){
 			trans.commit();
 		}
@@ -95,4 +95,5 @@ public abstract class CommonBaseDaoImpl<T> implements CommonBaseDao<T>{
 			closeSession(session);
 		}
 	}
+	
 }

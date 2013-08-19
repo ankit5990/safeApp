@@ -1,5 +1,7 @@
 package com.mcafee.scor.safety.dao.rawData;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import com.mcafee.scor.safety.common.db.CommonDbTest;
@@ -42,4 +44,15 @@ public class TestRawDataDaoImpl extends CommonDbTest{
 		return obj;
 	}
 	
+	@Test
+	public void testReadTopN(){
+		rawDataDao.add(getSampleObject());
+		rawDataDao.add(getSampleObject());
+		rawDataDao.add(getSampleObject());
+		
+		List<RawData> result = rawDataDao.readTopN(2);
+		
+		assertEquals(1, result.get(0).getId());
+		assertEquals(2, result.get(1).getId());
+	}
 }
