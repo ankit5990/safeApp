@@ -29,6 +29,8 @@
 		parent="com.swa.dao.CommonBaseDao">
 	</bean>
 	
-	<bean >
+	<bean id="com.swa.serverTask.ProcessRawData" class="com.mcafee.scor.safety.serverTask.ProcessRawData">
+		<constructor-arg index="0" value="1000"/>
+		<property name="rawDataDao" ref="com.swa.dao.RawDataDao"/>
 	</bean>		
 </beans>
