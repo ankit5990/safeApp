@@ -1,5 +1,8 @@
 package com.mcafee.scor.safety.dao.processedData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.mcafee.scor.safety.common.db.CommonDbTest;
@@ -50,7 +53,7 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		obj.setVictimTransport(Transport.PRIVATE_CAR);
 		return obj;
 	}
-
+	
 	@Test
 	public void testUpdate(){
 		ProcessedData processedData = getSampleObject();
@@ -74,4 +77,32 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		assertInsertedProperly(processedData);
 	}
 
+	@Test
+	public void testUpdateCrimeCount(){
+		ProcessedData processedData = getSampleObject();
+		processedDataDao.add(processedData);
+		
+		int prvCount = processedData.getNumberOfCrimes();
+		int incrementInCount = 10;
+		
+		processedData.setNumberOfCrimes(incrementInCount);
+		
+		
+		ProcessedData processedData2 = getSampleObject();
+		processedData2.setAutoId(2);
+		processedData2.setStreetName("streetName"+2);
+		processedData2.setCoordinates(new Coordinates(+2, -45));
+		processedData2.setNumberOfCrimes(2);
+		
+		List<ProcessedData> processedDataList = new ArrayList<ProcessedData>();
+		processedDataList.add(processedData);
+		processedDataList.add(processedData2);
+		
+		processedDataDao.updateCrimeCount(processedDataList);
+		
+		processedData.setNumberOfCrimes(prvCount + incrementInCount);
+		assertInsertedProperly(processedData);
+		assertInsertedProperly(processedData2);
+	}
+	
 }

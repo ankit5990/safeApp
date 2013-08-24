@@ -39,6 +39,21 @@ public class ProcessedData implements Serializable{
 	private Rating rating = Rating.UNRATED;	//assigning default value for rating for schema
 	
 	
+	public ProcessedData(ProcessedData processedData) {
+		ProcessedData newProcessedData = new ProcessedData();
+		newProcessedData.autoId = processedData.autoId;
+		newProcessedData.coordinates = processedData.coordinates;
+		newProcessedData.numberOfCrimes = processedData.numberOfCrimes;
+		newProcessedData.rating = processedData.rating;
+		newProcessedData.streetName = processedData.streetName;
+		newProcessedData.timeOfDay = processedData.timeOfDay;
+		newProcessedData.victimTransport = processedData.victimTransport;
+	}
+	
+	public ProcessedData() {
+		// default constructor
+	}
+	
 	@Id
 	@GeneratedValue(generator="increment")
 	@GenericGenerator(name="increment", strategy="increment")

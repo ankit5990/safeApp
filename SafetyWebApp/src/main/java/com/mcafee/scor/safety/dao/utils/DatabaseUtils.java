@@ -8,4 +8,17 @@ public class DatabaseUtils {
 			session.close();
 		}
 	}
+
+	public static String getInClause(int size) {
+		StringBuilder inClause = new StringBuilder();
+		inClause.append("(");
+		if(size>0){
+			for(int i=0;i<size;i++){
+				inClause.append("?,");
+			}
+			inClause.setLength(inClause.length() - 1);	//remove extra ','
+		}
+		inClause.append(")");
+		return inClause.toString();
+	}
 }

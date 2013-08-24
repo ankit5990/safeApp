@@ -1,5 +1,7 @@
 package com.mcafee.scor.safety.dao;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
@@ -96,4 +98,35 @@ public abstract class CommonBaseDaoImpl<T> implements CommonBaseDao<T>{
 		}
 	}
 	
+	@Override
+	public void updateBatch(List<T> objects){
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			for(T t : objects){
+				session.update(t);
+			}
+		}finally{
+			commitTransaction(trans);
+			closeSession(session);
+		}
+	}
+	
+	@Override
+	public void deleteBatch(List<T> objects){
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			for(T t : objects){
+				session.delete(t);
+			}
+		}finally{
+			commitTransaction(trans);
+			closeSession(session);
+		}
+	}
 }
