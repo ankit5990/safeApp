@@ -17,31 +17,35 @@ public class Coordinates implements Serializable{
 	 */
 	private static final long serialVersionUID = 2886997068568483520L;
 	
-	private int latitude;
-	private int longitude;
+	private double latitude;
+	private double longitude;
 	
 	public Coordinates() {
 	}
 	
-	public Coordinates(int latitude, int longitude) {
+	public Coordinates(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 
-	public int getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 
-	public int getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
+
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + latitude;
-		result = prime * result + longitude;
+		long temp;
+		temp = Double.doubleToLongBits(latitude);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(longitude);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -54,9 +58,11 @@ public class Coordinates implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Coordinates other = (Coordinates) obj;
-		if (latitude != other.latitude)
+		if (Double.doubleToLongBits(latitude) != Double
+				.doubleToLongBits(other.latitude))
 			return false;
-		if (longitude != other.longitude)
+		if (Double.doubleToLongBits(longitude) != Double
+				.doubleToLongBits(other.longitude))
 			return false;
 		return true;
 	}
@@ -75,8 +81,8 @@ public class Coordinates implements Serializable{
 			throw new Error("Argument stirng not properly formated");
 		}
 		Coordinates coordinates = new Coordinates();
-		coordinates.latitude = Integer.parseInt(args[0]);
-		coordinates.longitude = Integer.parseInt(args[1]);
+		coordinates.latitude = Double.parseDouble(args[0]);
+		coordinates.longitude = Double.parseDouble(args[1]);
 		return coordinates;
 	}
 

@@ -37,7 +37,7 @@ public class TestRawDataDaoImpl extends CommonDbTest{
 
 	private RawData getSampleObject() {
 		RawData obj = new RawData();
-		obj.setCoordinates(new Coordinates(-1, +1));
+		obj.setCoordinates(new Coordinates(-1.45, +1.88));
 		obj.setStreetName("my street");
 		obj.setTime(System.currentTimeMillis());
 		obj.setVictimTransport(Transport.RICKSHAW);
