@@ -5,7 +5,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.mcafee.scor.safety.common.db.CommonDbTest;
-import com.mcafee.scor.safety.model.Coordinates;
 import com.mcafee.scor.safety.model.Transport;
 import com.mcafee.scor.safety.model.rawData.RawData;
 
@@ -37,7 +36,8 @@ public class TestRawDataDaoImpl extends CommonDbTest{
 
 	private RawData getSampleObject() {
 		RawData obj = new RawData();
-		obj.setCoordinates(new Coordinates(-1.45, +1.88));
+		obj.setLatitude(-1.45);
+		obj.setLongitude(1.88);
 		obj.setStreetName("my street");
 		obj.setTime(System.currentTimeMillis());
 		obj.setVictimTransport(Transport.RICKSHAW);

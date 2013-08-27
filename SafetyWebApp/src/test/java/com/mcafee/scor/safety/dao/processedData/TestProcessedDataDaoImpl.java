@@ -2,6 +2,7 @@ package com.mcafee.scor.safety.dao.processedData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -45,7 +46,8 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 	private ProcessedData getSampleObject() {
 		ProcessedData obj = new ProcessedData();
 		obj.setAutoId(1);
-		obj.setCoordinates(new Coordinates(-82, 39));
+		obj.setLatitude(-82);
+		obj.setLongitude(39);
 		obj.setNumberOfCrimes(34);
 		obj.setRating(Rating.RED);
 		obj.setStreetName("myStreet");
@@ -91,7 +93,8 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		ProcessedData processedData2 = getSampleObject();
 		processedData2.setAutoId(2);
 		processedData2.setStreetName("streetName"+2);
-		processedData2.setCoordinates(new Coordinates(+2, -45));
+		processedData2.setLatitude(2);
+		processedData2.setLongitude(-45);
 		processedData2.setNumberOfCrimes(2);
 		
 		List<ProcessedData> processedDataList = new ArrayList<ProcessedData>();
@@ -104,5 +107,24 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		assertInsertedProperly(processedData);
 		assertInsertedProperly(processedData2);
 	}
-	
+
+	@Test
+	public void testGetRatingAroundCoordinate(){
+		ProcessedData sampleObject = getSampleObject();
+		double latitude = sampleObject.getLatitude();
+		double longitude = sampleObject.getLongitude();
+		int radius = 10;
+		
+		processedDataDao.add(sampleObject);
+		
+		sampleObject.setAutoId(2);
+		sampleObject.setLatitude(sampleObject.getLatitude() + 10);
+		sampleObject.setLongitude(sampleObject.getLongitude() + 10);
+		sampleObject.setStreetName(sampleObject.getStreetName()+"1");
+		processedDataDao.add(sampleObject);
+		
+		Map<Coordinates, Rating> result = processedDataDao.getRatingAroundCoordinate(new Coordinates(latitude,longitude), radius);
+		
+		System.err.println(result);
+	}
 }
