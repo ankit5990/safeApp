@@ -33,5 +33,9 @@
 		<constructor-arg index="0" value="1000"/>
 		<property name="rawDataDao" ref="com.swa.dao.RawDataDao"/>
 		<property name="processedDataDao" ref="com.swa.dao.ProcessedDataDao"/>
-	</bean>		
+	</bean>
+	
+<!-- 	<bean id="com.swa.action.RatingPointsAction" class="com.mcafee.scor.safety.action.RatingPointsAction">
+		<property name="processedDataDao" ref="com.swa.dao.ProcessedDataDao"/>
+	</bean> -->
 </beans>
