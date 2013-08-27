@@ -37,7 +37,8 @@ public class ProcessedDataVO {
 	public static ProcessedDataVO getProcessedDataVOForRawData(RawData rawData){
 		ProcessedData processedData = new ProcessedData();
 		processedData.setAutoId(0);
-		processedData.setCoordinates(rawData.getCoordinates());
+		processedData.setLatitude(rawData.getLatitude());
+		processedData.setLongitude(rawData.getLongitude());
 		processedData.setNumberOfCrimes(0);
 		processedData.setRating(Rating.UNRATED);
 		processedData.setStreetName(rawData.getStreetName());
@@ -57,8 +58,11 @@ public class ProcessedDataVO {
 		}
 		else{
 			result = prime * result + processedData.getAutoId();
-			result = prime * result
-					+ ((processedData.getCoordinates() == null) ? 0 : processedData.getCoordinates().hashCode());
+			long temp;
+			temp = Double.doubleToLongBits(processedData.getLatitude());
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			temp = Double.doubleToLongBits(processedData.getLongitude());
+			result = prime * result + (int) (temp ^ (temp >>> 32));
 //			result = prime * result + processedData.getNumberOfCrimes();
 			result = prime * result + ((processedData.getRating() == null) ? 0 : processedData.getRating().hashCode());
 			result = prime * result
@@ -89,10 +93,11 @@ public class ProcessedDataVO {
 		
 		if (processedData.getAutoId() != other.processedData.getAutoId())
 			return false;
-		if (processedData.getCoordinates() == null) {
-			if (other.processedData.getCoordinates() != null)
-				return false;
-		} else if (!processedData.getCoordinates().equals(other.processedData.getCoordinates()))
+		if (Double.doubleToLongBits(processedData.getLatitude()) != Double
+				.doubleToLongBits(other.getProcessedData().getLatitude()))
+			return false;
+		if (Double.doubleToLongBits(processedData.getLongitude()) != Double
+				.doubleToLongBits(other.processedData.getLongitude()))
 			return false;
 //		if (processedData.getNumberOfCrimes() != other.processedData.getNumberOfCrimes())
 //			return false;

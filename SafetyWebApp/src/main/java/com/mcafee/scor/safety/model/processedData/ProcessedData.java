@@ -6,11 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.mcafee.scor.safety.model.Coordinates;
 import com.mcafee.scor.safety.model.Rating;
 import com.mcafee.scor.safety.model.TimeOfDay;
 import com.mcafee.scor.safety.model.Transport;
@@ -32,7 +30,8 @@ public class ProcessedData implements Serializable{
 	
 	private int autoId;
 	private String streetName;
-	private Coordinates coordinates;
+	private double latitude;
+	private double longitude;
 	private TimeOfDay timeOfDay;
 	private Transport victimTransport;
 	private int numberOfCrimes;
@@ -40,14 +39,14 @@ public class ProcessedData implements Serializable{
 	
 	
 	public ProcessedData(ProcessedData processedData) {
-		ProcessedData newProcessedData = new ProcessedData();
-		newProcessedData.autoId = processedData.autoId;
-		newProcessedData.coordinates = processedData.coordinates;
-		newProcessedData.numberOfCrimes = processedData.numberOfCrimes;
-		newProcessedData.rating = processedData.rating;
-		newProcessedData.streetName = processedData.streetName;
-		newProcessedData.timeOfDay = processedData.timeOfDay;
-		newProcessedData.victimTransport = processedData.victimTransport;
+		this.autoId = processedData.autoId;
+		this.latitude = processedData.latitude;
+		this.longitude = processedData.longitude;
+		this.numberOfCrimes = processedData.numberOfCrimes;
+		this.rating = processedData.rating;
+		this.streetName = processedData.streetName;
+		this.timeOfDay = processedData.timeOfDay;
+		this.victimTransport = processedData.victimTransport;
 	}
 	
 	public ProcessedData() {
@@ -69,22 +68,23 @@ public class ProcessedData implements Serializable{
 	public void setStreetName(String streetName) {
 		this.streetName = streetName;
 	}
-	@Transient
-	public Coordinates getCoordinates() {
-		return coordinates;
+
+	public double getLatitude() {
+		return latitude;
 	}
-	public void setCoordinates(Coordinates coordinates) {
-		this.coordinates = coordinates;
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
-	public String getCoordinatesString() {
-		if(coordinates == null){
-			return null;
-		}
-		return coordinates.toString();
+
+	public double getLongitude() {
+		return longitude;
 	}
-	public void setCoordinatesString(String coordinates) {
-		this.coordinates = Coordinates.getFromString(coordinates);
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
+
 	public TimeOfDay getTimeOfDay() {
 		return timeOfDay;
 	}
@@ -113,13 +113,17 @@ public class ProcessedData implements Serializable{
 		return serialVersionUID;
 	}
 	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + autoId;
-		result = prime * result
-				+ ((coordinates == null) ? 0 : coordinates.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(latitude);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(longitude);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + numberOfCrimes;
 		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
 		result = prime * result
@@ -130,6 +134,7 @@ public class ProcessedData implements Serializable{
 				+ ((victimTransport == null) ? 0 : victimTransport.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -141,10 +146,11 @@ public class ProcessedData implements Serializable{
 		ProcessedData other = (ProcessedData) obj;
 		if (autoId != other.autoId)
 			return false;
-		if (coordinates == null) {
-			if (other.coordinates != null)
-				return false;
-		} else if (!coordinates.equals(other.coordinates))
+		if (Double.doubleToLongBits(latitude) != Double
+				.doubleToLongBits(other.latitude))
+			return false;
+		if (Double.doubleToLongBits(longitude) != Double
+				.doubleToLongBits(other.longitude))
 			return false;
 		if (numberOfCrimes != other.numberOfCrimes)
 			return false;
@@ -161,13 +167,14 @@ public class ProcessedData implements Serializable{
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "ProcessedData [autoId=" + autoId + ", streetName=" + streetName
-				+ ", coordinates=" + coordinates + ", timeOfDay=" + timeOfDay
-				+ ", victimTransport=" + victimTransport + ", numberOfCrimes="
-				+ numberOfCrimes + ", rating=" + rating + "]";
+				+ ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", timeOfDay=" + timeOfDay + ", victimTransport="
+				+ victimTransport + ", numberOfCrimes=" + numberOfCrimes
+				+ ", rating=" + rating + "]";
 	}
-	
-	
+
 }
