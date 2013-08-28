@@ -13,7 +13,7 @@ public enum Transport {
 		this.intVal = intVal;
 	}
 	
-	public Transport getByIntVal(int intVal){
+	public static Transport getByIntVal(int intVal){
 		for(Transport transport : Transport.values()){
 			if(transport.getIntVal() == intVal){
 				return transport;

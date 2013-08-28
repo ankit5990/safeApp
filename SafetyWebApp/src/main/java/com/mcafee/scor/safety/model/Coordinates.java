@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  */
 public class Coordinates implements Serializable{
-	private static final String SEPERATOR = ":";
+	private static final String SEPERATOR = ",";
 
 	/**
 	 * 
