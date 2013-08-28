@@ -1,10 +1,9 @@
 package com.mcafee.scor.safety.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,14 +14,26 @@ import com.mcafee.scor.safety.model.Transport;
 
 
 public class GoogleMapServiceImpl {
+	private static final String DEST_LONG = "destLong";
+	private static final String DEST_LAT = "destLat";
+	private static final String ORIGIN_LONG = "originLong";
+	private static final String ORIGIN_LAT = "originLat";
+
 	public List<RatedCoordinate> getRatedPath(Coordinates start, 
 			Coordinates end, TimeOfDay timeOfDay, Transport transport){
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		HttpEntity<String> request = new HttpEntity<String>("body",httpHeaders);
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> x = restTemplate.getForEntity("http://maps.googleapis.com/maps/api/directions/json?origin=28.6100,77.2300&destination=28.6100,78.2300&sensor=false", String.class);
-		System.out.println(x);
+		String query = "http://maps.googleapis.com/maps/api/directions/json?origin={"+ORIGIN_LAT+"},{"+ORIGIN_LONG+"}&"
+				+ "destination={"+DEST_LAT+"},{"+DEST_LONG+"}&sensor=false";
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(ORIGIN_LAT, ""+start.getLatitude());
+		params.put(ORIGIN_LONG, ""+start.getLongitude());
+		params.put(DEST_LAT, ""+end.getLatitude());
+		params.put(DEST_LONG, ""+end.getLongitude());
+		
+		ResponseEntity<String> x = restTemplate.getForEntity(query, String.class, params);
+		
+		System.out.println(x.getBody());
 		return null;
 	}
 }
