@@ -123,7 +123,8 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		sampleObject.setStreetName(sampleObject.getStreetName()+"1");
 		processedDataDao.add(sampleObject);
 		
-		Map<Coordinates, Rating> result = processedDataDao.getRatingAroundCoordinate(new Coordinates(latitude,longitude), radius);
+		Coordinates coordinate = new Coordinates(latitude,longitude);
+		Map<Coordinates, Rating> result = processedDataDao.getRatingAroundCoordinate(coordinate, TimeOfDay.EVENING, Transport.PRIVATE_CAR, radius);
 		
 		System.err.println(result);
 	}

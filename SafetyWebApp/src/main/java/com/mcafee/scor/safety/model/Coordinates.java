@@ -70,7 +70,7 @@ public class Coordinates implements Serializable{
 	/**
 	 * 
 	 * argument coordinatesString should be of the format latitude:longitude
-	 * For eg 10:-10, 78,-98
+	 * For eg 10,-10; 78,-98
 	 * 
 	 * @param coordinatesString
 	 * @return

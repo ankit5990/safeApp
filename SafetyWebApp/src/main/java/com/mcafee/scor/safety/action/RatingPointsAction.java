@@ -27,13 +27,17 @@ public class RatingPointsAction {
 	@Autowired
 	private UserRatingDao userRatingDao; 
 	
-	@RequestMapping(value="/getRatingMapAroundCoordinate.do", method=RequestMethod.GET)
+	@RequestMapping(value="/getRatingMapAroundCoordinate.do", method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Map<Coordinates, Rating> getRatingOfRegionForCoordinate(@RequestParam("coordinateString") String coordinateString,
+			@RequestParam("timeMillies") long timeMillies,
+			@RequestParam("transport") int transport,
 			@RequestParam("radius") int radius){
-		return getProcessedDataDao().getRatingAroundCoordinate(Coordinates.getFromString(coordinateString), radius);
+		TimeOfDay timeOfDay = TimeOfDay.getByTimeMillies(timeMillies);
+		Transport transportEnum = Transport.getByIntVal(transport);
+		return getProcessedDataDao().getRatingAroundCoordinate(Coordinates.getFromString(coordinateString), timeOfDay, transportEnum, radius);
 	}
 	
-	@RequestMapping(value="/saveRating.do",method=RequestMethod.GET)
+	@RequestMapping(value="/saveRating.do",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody int saveRating(@RequestParam("coordinateString") String coordinateString,
 			@RequestParam("timeMillies") long timeMillies,
 			@RequestParam("transport") int transport,

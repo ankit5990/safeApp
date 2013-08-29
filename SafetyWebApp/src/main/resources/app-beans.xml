@@ -39,6 +39,11 @@
 		<property name="processedDataDao" ref="com.swa.dao.ProcessedDataDao"/>
 	</bean>
 	
+	<bean id="com.swa.serverTask.RateProcessedData" class="com.mcafee.scor.safety.serverTask.RateProcessedData">
+		<constructor-arg index="0" value="10000"/>
+		<property name="processedDataDao" ref="com.swa.dao.ProcessedDataDao"/>
+	</bean>
+	
 	<bean id="com.swa.service.GoogleMapService" class="com.mcafee.scor.safety.service.GoogleMapServiceImpl">
 	</bean>	
 </beans>
