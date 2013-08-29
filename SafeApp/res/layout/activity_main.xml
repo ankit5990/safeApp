@@ -1,0 +1,44 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="5dip"
+    tools:context=".MainActivity" >
+
+             <Button
+                 android:id="@+id/findRoute_button"
+                 style="@style/ButtonText"
+                 android:background="@drawable/red_btn"
+                 android:padding="20dip"
+                 android:text="Find Safe route" />
+
+             <Button
+                 android:id="@+id/getRating_button"
+                 style="@style/ButtonText"
+                 android:background="@drawable/red_btn"
+                 android:padding="20dip"
+                 android:text="Get Rating" />
+
+             <Button
+                 android:id="@+id/rating_button"
+                 style="@style/ButtonText"
+                 android:background="@drawable/red_btn"
+                 android:padding="20dip"
+                 android:text="Rate location" />
+             
+             <Button
+                 android:id="@+id/sos_button"
+                 style="@style/ButtonText"
+                 android:background="@drawable/red_btn"
+                 android:padding="20dip"
+                 android:text="SOS" />
+
+</LinearLayout>
+</ScrollView>
