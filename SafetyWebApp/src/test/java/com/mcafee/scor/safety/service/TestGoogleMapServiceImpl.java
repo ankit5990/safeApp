@@ -1,5 +1,8 @@
 package com.mcafee.scor.safety.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -23,6 +26,7 @@ public class TestGoogleMapServiceImpl extends TestCase{
 		Coordinates end = new Coordinates(27.6100,78.2300);
 		TimeOfDay timeOfDay = TimeOfDay.MORNING;
 		Transport transport = Transport.BUS;
-		googleMapService.getRatedPath(start, end, timeOfDay, transport);
+		List<RatedCoordinate> ratedCoordinates = googleMapService.getRatedPath(start, end, timeOfDay, transport);
+		System.out.println(Arrays.toString(ratedCoordinates.toArray()));
 	}
 }

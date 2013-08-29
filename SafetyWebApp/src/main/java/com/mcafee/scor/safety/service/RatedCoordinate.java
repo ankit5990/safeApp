@@ -56,5 +56,10 @@ public class RatedCoordinate {
 			return false;
 		return true;
 	}
-	
+	@Override
+	public String toString() {
+		return "RatedCoordinate [latitude=" + latitude + ", longitude="
+				+ longitude + ", rating=" + rating + "]";
+	}
+
 }
