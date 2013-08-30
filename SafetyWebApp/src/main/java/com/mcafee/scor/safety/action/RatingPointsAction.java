@@ -50,7 +50,7 @@ public class RatingPointsAction {
 	
 	/**
 	 * sample url:
-	 * http://localhost:8080/SafetyWebApp/saveRating.do?coordinateString=1,1&timeMillies=223543463&transport=2&rating=GREEN
+	 * http://localhost:8080/SafetyWebApp/saveRating.do?coordinateString=1,1&timeMillies=223543463&transport=2&rating=3
 	 * 
 	 * @param coordinateString
 	 * @param timeMillies
@@ -62,13 +62,13 @@ public class RatingPointsAction {
 	public @ResponseBody int saveRating(@RequestParam("coordinateString") String coordinateString,
 			@RequestParam("timeMillies") long timeMillies,
 			@RequestParam("transport") int transport,
-			@RequestParam("rating") Rating rating){
+			@RequestParam("rating") int rating){
 		UserRating userRating = new UserRating();
 		Coordinates coordinate = Coordinates.getFromString(coordinateString);
 		
 		userRating.setLatitude(coordinate.getLatitude());
 		userRating.setLongitude(coordinate.getLongitude());
-		userRating.setRating(rating);
+		userRating.setRating(Rating.getByIntegerValue(rating));
 		userRating.setTimeOfDay(TimeOfDay.getByTimeMillies(timeMillies));
 		Transport trasportObject = Transport.getByIntVal(transport);
 		

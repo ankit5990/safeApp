@@ -128,4 +128,25 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		
 		System.err.println(result);
 	}
+	
+	@Test
+	public void testGetRatingForCoordinate(){
+		ProcessedData sampleObject = getSampleObject();
+		double latitude = sampleObject.getLatitude();
+		double longitude = sampleObject.getLongitude();
+		
+		processedDataDao.add(sampleObject);
+		
+		sampleObject.setAutoId(2);
+		sampleObject.setLatitude(sampleObject.getLatitude() + 10);
+		sampleObject.setLongitude(sampleObject.getLongitude() + 10);
+		sampleObject.setStreetName(sampleObject.getStreetName()+"1");
+		sampleObject.setRating(Rating.GREEN);
+		processedDataDao.add(sampleObject);
+		
+		Coordinates coordinate = new Coordinates(latitude+0.001,longitude);
+		Rating result = processedDataDao.getRatingForCoordinate(coordinate);
+		
+		assertEquals(Rating.RED, result);
+	}
 }

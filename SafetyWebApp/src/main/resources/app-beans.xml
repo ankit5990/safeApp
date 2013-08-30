@@ -45,5 +45,6 @@
 	</bean>
 	
 	<bean id="com.swa.service.GoogleMapService" class="com.mcafee.scor.safety.service.GoogleMapServiceImpl">
+		<property name="processedDataDao" ref="com.swa.dao.ProcessedDataDao"/>
 	</bean>	
 </beans>

@@ -13,7 +13,7 @@ public enum Rating {
 		this.integerValue = integerValue;
 	}
 	
-	public Rating getByIntegerValue(int val){
+	public static Rating getByIntegerValue(int val){
 		for(Rating rating : Rating.values()){
 			if(rating.integerValue == val){
 				return rating;

@@ -1,5 +1,6 @@
 package com.mcafee.scor.safety.service;
 
+import com.mcafee.scor.safety.model.Coordinates;
 import com.mcafee.scor.safety.model.Rating;
 
 public class RatedCoordinate {
@@ -62,4 +63,7 @@ public class RatedCoordinate {
 				+ longitude + ", rating=" + rating + "]";
 	}
 
+	public Coordinates getCoordinates(){
+		return new Coordinates(this.latitude, this.longitude);
+	}
 }

@@ -13,8 +13,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mcafee.scor.safety.common.Commonutilities;
+import com.mcafee.scor.safety.dao.processedData.ProcessedDataDao;
 import com.mcafee.scor.safety.model.Coordinates;
-import com.mcafee.scor.safety.model.Rating;
 import com.mcafee.scor.safety.model.TimeOfDay;
 import com.mcafee.scor.safety.model.Transport;
 
@@ -28,6 +29,8 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 	private static final String ORIGIN_LONG = "originLong";
 	private static final String ORIGIN_LAT = "originLat";
 
+	private ProcessedDataDao processedDataDao;
+	
 	@Override
 	public List<RatedCoordinate> getRatedPath(Coordinates start, 
 			Coordinates end, TimeOfDay timeOfDay, Transport transport){
@@ -41,9 +44,9 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 		params.put(DEST_LAT, ""+end.getLatitude());
 		params.put(DEST_LONG, ""+end.getLongitude());
 		
-		ResponseEntity<String> x = restTemplate.getForEntity(query, String.class, params);
+		ResponseEntity<String> restResponse = restTemplate.getForEntity(query, String.class, params);
 		
-		JsonElement jsonElement = new JsonParser().parse(x.getBody());
+		JsonElement jsonElement = new JsonParser().parse(restResponse.getBody());
 		if(jsonElement.isJsonObject()){
 			JsonObject json = (JsonObject) jsonElement;
 			return extractPath(json);
@@ -65,25 +68,47 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 			JsonElement steps = legs.getAsJsonArray().get(0).getAsJsonObject().get("steps");
 			
 			JsonArray stepsArray = steps.getAsJsonArray();
+			
+			stepsArray = Commonutilities.limitJsonArraySize(stepsArray, 7);
 			List<RatedCoordinate> ratedCoordinateList = new ArrayList<RatedCoordinate>();
+			
 			for (int i = 0; i < stepsArray.size(); i++) {
 				JsonObject step = stepsArray.get(i).getAsJsonObject();
 				JsonObject start_location  = step.get("start_location").getAsJsonObject();
-				
-				double lat = start_location.get("lat").getAsDouble();
-				double lng = start_location.get("lng").getAsDouble();
-				
-				RatedCoordinate ratedCoordinate = new RatedCoordinate();
-				ratedCoordinate.setLatitude(lat);
-				ratedCoordinate.setLongitude(lng);
-				ratedCoordinate.setRating(Rating.UNRATED);
-				
+				RatedCoordinate ratedCoordinate = getRatedCoordinateForLocationJson(start_location);				
 				ratedCoordinateList.add(ratedCoordinate);
 			}
 			
+			if(stepsArray.size() > 0){
+				JsonObject step = stepsArray.get(stepsArray.size() - 1).getAsJsonObject();
+				JsonObject end_location  = step.get("end_location").getAsJsonObject();
+				RatedCoordinate lastCoordinate = getRatedCoordinateForLocationJson(end_location);
+				ratedCoordinateList.add(lastCoordinate);
+			}
 			return ratedCoordinateList;
 		}
 		logger.error("google api call failed");
 		return null;
 	}
+	
+	private RatedCoordinate getRatedCoordinateForLocationJson(JsonObject locationJson){
+		double lat = locationJson.get("lat").getAsDouble();
+		double lng = locationJson.get("lng").getAsDouble();
+		
+		RatedCoordinate ratedCoordinate = new RatedCoordinate();
+		ratedCoordinate.setLatitude(lat);
+		ratedCoordinate.setLongitude(lng);
+		ratedCoordinate.setRating(getProcessedDataDao().getRatingForCoordinate(ratedCoordinate.getCoordinates()));
+		return ratedCoordinate;
+	}
+
+	public ProcessedDataDao getProcessedDataDao() {
+		return processedDataDao;
+	}
+
+	public void setProcessedDataDao(ProcessedDataDao processedDataDao) {
+		this.processedDataDao = processedDataDao;
+	}
+	
+	
 }

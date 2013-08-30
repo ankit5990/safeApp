@@ -17,4 +17,6 @@ public interface ProcessedDataDao extends CommonBaseDao<ProcessedData>{
 	public Map<Coordinates, Rating> getRatingAroundCoordinate(Coordinates coordinate,
 			TimeOfDay timeOfDay, Transport transport, int radius);
 
+	Rating getRatingForCoordinate(Coordinates coordinate);
+
 }
