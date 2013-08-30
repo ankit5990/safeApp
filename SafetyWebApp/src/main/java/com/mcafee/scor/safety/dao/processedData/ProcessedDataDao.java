@@ -19,4 +19,8 @@ public interface ProcessedDataDao extends CommonBaseDao<ProcessedData>{
 
 	Rating getRatingForCoordinate(Coordinates coordinate);
 
+	List<ProcessedData> readTopN(int lim);
+
+	List<ProcessedData> readRange(int start, int end);
+
 }

@@ -12,6 +12,7 @@ import com.mcafee.scor.safety.model.Rating;
 import com.mcafee.scor.safety.model.TimeOfDay;
 import com.mcafee.scor.safety.model.Transport;
 import com.mcafee.scor.safety.model.processedData.ProcessedData;
+import com.mcafee.scor.safety.model.rawData.RawData;
 
 public class TestProcessedDataDaoImpl extends CommonDbTest{
 
@@ -148,5 +149,34 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		Rating result = processedDataDao.getRatingForCoordinate(coordinate);
 		
 		assertEquals(Rating.RED, result);
+	}
+	
+	@Test
+	public void testReadTopN(){
+		processedDataDao.add(getSampleObject());
+		processedDataDao.add(getSampleObject());
+		processedDataDao.add(getSampleObject());
+		
+		List<ProcessedData> result = processedDataDao.readTopN(2);
+		
+		assertEquals(2, result.size());
+		assertEquals(1, result.get(0).getAutoId());
+		assertEquals(2, result.get(1).getAutoId());
+	}
+	
+	@Test
+	public void testReadRange(){
+		processedDataDao.add(getSampleObject());
+		processedDataDao.add(getSampleObject());
+		processedDataDao.add(getSampleObject());
+		processedDataDao.add(getSampleObject());
+		processedDataDao.add(getSampleObject());
+		
+		List<ProcessedData> result = processedDataDao.readRange(2, 4);
+		
+		assertEquals(3, result.size());
+		assertEquals(2, result.get(0).getAutoId());
+		assertEquals(3, result.get(1).getAutoId());
+		assertEquals(4, result.get(2).getAutoId());
 	}
 }

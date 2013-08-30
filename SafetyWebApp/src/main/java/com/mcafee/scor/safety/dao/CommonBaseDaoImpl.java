@@ -2,6 +2,7 @@ package com.mcafee.scor.safety.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
@@ -92,6 +93,23 @@ public abstract class CommonBaseDaoImpl<T> implements CommonBaseDao<T>{
 			trans = session.beginTransaction();
 			
 			return (T) session.get(clazz,id);
+		}finally{
+			commitTransaction(trans);
+			closeSession(session);
+		}
+	}
+	
+	public List<T> readList(String modelName,int lim){
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			
+			Query query = session.createQuery("From "+modelName);
+			query.setMaxResults(lim);
+			
+			return query.list();
 		}finally{
 			commitTransaction(trans);
 			closeSession(session);

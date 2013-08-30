@@ -109,5 +109,31 @@ public class ProcessedDataDaoImpl extends CommonBaseDaoImpl<ProcessedData> imple
 			closeSession(session);
 		}
 	}
+	
+	@Override
+	public List<ProcessedData> readTopN(int lim){
+		return readList("ProcessedData", lim);
+	}
+	
+	@Override
+	public List<ProcessedData> readRange(int start, int end){
+		Session session = null;
+		Transaction trans = null;
+		try{
+			session = getSession();
+			trans = session.beginTransaction();
+			
+			String queryString = "from ProcessedData where id between :start and :end";
+			Query query = session.createQuery(queryString);
+			query.setInteger("start", start);
+			query.setInteger("end", end);
+			
+			return query.list();
+		}finally{
+			commitTransaction(trans);
+			closeSession(session);
+		}
+	}
 }
+
 
