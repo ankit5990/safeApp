@@ -12,7 +12,6 @@ import com.mcafee.scor.safety.model.Rating;
 import com.mcafee.scor.safety.model.TimeOfDay;
 import com.mcafee.scor.safety.model.Transport;
 import com.mcafee.scor.safety.model.processedData.ProcessedData;
-import com.mcafee.scor.safety.model.rawData.RawData;
 
 public class TestProcessedDataDaoImpl extends CommonDbTest{
 
