@@ -7,7 +7,13 @@ public class CountBasedRatingEngineImpl implements RatingEngine	{
 
 	@Override
 	public Rating getRating(ProcessedData processedData) {
-		return Rating.GREEN;
+		if(processedData.getNumberOfCrimes() < 30){
+			return Rating.GREEN;
+		}
+		if(processedData.getNumberOfCrimes() < 50){
+			return Rating.YELLOW;
+		}
+		return Rating.RED;
 	}
 
 }
