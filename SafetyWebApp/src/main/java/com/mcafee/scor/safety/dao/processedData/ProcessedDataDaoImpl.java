@@ -30,9 +30,12 @@ public class ProcessedDataDaoImpl extends CommonBaseDaoImpl<ProcessedData> imple
 			int [] result = new int[processedDataList.size()];
 			for (int index = 0; index < result.length; index++) {
 				ProcessedData processedData = processedDataList.get(index);
-				Query query = session.createQuery("update ProcessedData set numberOfCrimes=numberOfCrimes+? where streetName=?");
-				query.setInteger(0, processedData.getNumberOfCrimes());
-				query.setString(1, processedData.getStreetName());
+				Query query = session.createQuery("update ProcessedData set numberOfCrimes=numberOfCrimes+:numberOfCrimes "
+						+ "where streetName=:streetName and timeOfDay=:timeOfDay and victimTransport=:victimTransport");
+				query.setInteger("numberOfCrimes", processedData.getNumberOfCrimes());
+				query.setString("streetName", processedData.getStreetName());
+				query.setInteger("timeOfDay", processedData.getTimeOfDay().getIntegerValue());
+				query.setInteger("victimTransport", processedData.getVictimTransport().getIntVal());
 				result[index] = query.executeUpdate();
 			}
 			

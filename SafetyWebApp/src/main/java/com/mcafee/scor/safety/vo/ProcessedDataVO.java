@@ -64,7 +64,7 @@ public class ProcessedDataVO {
 			temp = Double.doubleToLongBits(processedData.getLongitude());
 			result = prime * result + (int) (temp ^ (temp >>> 32));
 //			result = prime * result + processedData.getNumberOfCrimes();
-			result = prime * result + ((processedData.getRating() == null) ? 0 : processedData.getRating().hashCode());
+//			result = prime * result + ((processedData.getRating() == null) ? 0 : processedData.getRating().hashCode());
 			result = prime * result
 					+ ((processedData.getStreetName() == null) ? 0 : processedData.getStreetName().hashCode());
 			result = prime * result
@@ -101,8 +101,8 @@ public class ProcessedDataVO {
 			return false;
 //		if (processedData.getNumberOfCrimes() != other.processedData.getNumberOfCrimes())
 //			return false;
-		if (processedData.getRating() != other.processedData.getRating())
-			return false;
+//		if (processedData.getRating() != other.processedData.getRating())
+//			return false;
 		if (processedData.getStreetName() == null) {
 			if (other.processedData.getStreetName() != null)
 				return false;

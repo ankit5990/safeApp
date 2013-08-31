@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.mcafee.scor.safety.common.db.CommonDbTest;
@@ -111,6 +109,78 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		assertInsertedProperly(processedData2);
 	}
 
+	@Test
+	public void testUpdateCrimeCount_diffTransportSubsequentInsert(){
+		ProcessedData processedData = getSampleObject();
+		processedDataDao.add(processedData);
+		
+		int prvCount = processedData.getNumberOfCrimes();
+		int incrementInCount = 10;
+		
+		processedData.setNumberOfCrimes(incrementInCount);
+		
+		
+		ProcessedData processedData2 = getSampleObject();
+		processedData2.setAutoId(2);
+		processedData2.setStreetName("streetName"+2);
+		processedData2.setLatitude(2);
+		processedData2.setLongitude(-45);
+		processedData2.setNumberOfCrimes(2);
+		
+		ProcessedData processedData3 = getSampleObject();
+		processedData3.setAutoId(3);
+		processedData3.setVictimTransport(Transport.CAB);
+		
+		
+		List<ProcessedData> processedDataList = new ArrayList<ProcessedData>();
+		processedDataList.add(processedData);
+		processedDataList.add(processedData2);
+		processedDataList.add(processedData3);
+		
+		processedDataDao.updateCrimeCount(processedDataList);
+		
+		processedData.setNumberOfCrimes(prvCount + incrementInCount);
+		assertInsertedProperly(processedData);
+		assertInsertedProperly(processedData2);
+		assertInsertedProperly(processedData3);
+	}
+	
+	@Test
+	public void testUpdateCrimeCount_diffTimeOfDaySubsequentInsert(){
+		ProcessedData processedData = getSampleObject();
+		processedDataDao.add(processedData);
+		
+		int prvCount = processedData.getNumberOfCrimes();
+		int incrementInCount = 10;
+		
+		processedData.setNumberOfCrimes(incrementInCount);
+		
+		
+		ProcessedData processedData2 = getSampleObject();
+		processedData2.setAutoId(2);
+		processedData2.setStreetName("streetName"+2);
+		processedData2.setLatitude(2);
+		processedData2.setLongitude(-45);
+		processedData2.setNumberOfCrimes(2);
+		
+		ProcessedData processedData3 = getSampleObject();
+		processedData3.setAutoId(3);
+		processedData3.setTimeOfDay(TimeOfDay.MORNING);
+		
+		
+		List<ProcessedData> processedDataList = new ArrayList<ProcessedData>();
+		processedDataList.add(processedData);
+		processedDataList.add(processedData2);
+		processedDataList.add(processedData3);
+		
+		processedDataDao.updateCrimeCount(processedDataList);
+		
+		processedData.setNumberOfCrimes(prvCount + incrementInCount);
+		assertInsertedProperly(processedData);
+		assertInsertedProperly(processedData2);
+		assertInsertedProperly(processedData3);
+	}
+	
 	@Test
 	public void testGetRatingAroundCoordinate_completeMatch(){
 		ProcessedData sampleObject = getSampleObject();
