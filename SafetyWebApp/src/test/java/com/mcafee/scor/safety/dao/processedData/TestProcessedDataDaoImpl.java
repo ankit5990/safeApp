@@ -1,9 +1,12 @@
 package com.mcafee.scor.safety.dao.processedData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.mcafee.scor.safety.common.db.CommonDbTest;
@@ -109,7 +112,7 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 	}
 
 	@Test
-	public void testGetRatingAroundCoordinate(){
+	public void testGetRatingAroundCoordinate_completeMatch(){
 		ProcessedData sampleObject = getSampleObject();
 		double latitude = sampleObject.getLatitude();
 		double longitude = sampleObject.getLongitude();
@@ -126,7 +129,65 @@ public class TestProcessedDataDaoImpl extends CommonDbTest{
 		Coordinates coordinate = new Coordinates(latitude,longitude);
 		Map<Coordinates, Rating> result = processedDataDao.getRatingAroundCoordinate(coordinate, TimeOfDay.EVENING, Transport.PRIVATE_CAR, radius);
 		
-		System.err.println(result);
+		Map<Coordinates, Rating> expected = new HashMap<Coordinates, Rating>();
+		expected.put(new Coordinates(latitude, longitude), Rating.RED);
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void testGetRatingAroundCoordinate_closeMatch(){
+		ProcessedData sampleObject = getSampleObject();
+		double latitude = sampleObject.getLatitude();
+		double longitude = sampleObject.getLongitude();
+		int radius = 20;
+		
+		processedDataDao.add(sampleObject);
+		
+		sampleObject.setAutoId(2);
+		sampleObject.setLatitude(sampleObject.getLatitude() + 10);
+		sampleObject.setLongitude(sampleObject.getLongitude() + 10);
+		sampleObject.setStreetName(sampleObject.getStreetName()+"1");
+		processedDataDao.add(sampleObject);
+		
+		Coordinates coordinate = new Coordinates(latitude + 0.0001,longitude + 0.0001);
+		Map<Coordinates, Rating> result = processedDataDao.getRatingAroundCoordinate(coordinate, TimeOfDay.EVENING, Transport.PRIVATE_CAR, radius);
+		
+		Map<Coordinates, Rating> expected = new HashMap<Coordinates, Rating>();
+		expected.put(new Coordinates(latitude, longitude), Rating.RED);
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void testGetRatingAroundCoordinate_multipleCloseMatch(){
+		ProcessedData sampleObject = getSampleObject();
+		double latitude = sampleObject.getLatitude();
+		double longitude = sampleObject.getLongitude();
+		int radius = 20;
+		
+		processedDataDao.add(sampleObject);
+		
+		sampleObject.setAutoId(2);
+		sampleObject.setLatitude(latitude + 10);
+		sampleObject.setLongitude(longitude + 10);
+		sampleObject.setStreetName(sampleObject.getStreetName()+"1");
+		processedDataDao.add(sampleObject);
+		
+		sampleObject.setAutoId(3);
+		sampleObject.setLatitude(latitude + 0.00005);
+		sampleObject.setLongitude(longitude + 0.00005);
+		sampleObject.setStreetName(sampleObject.getStreetName()+"2");
+		sampleObject.setRating(Rating.GREEN);
+		processedDataDao.add(sampleObject);
+		
+		Coordinates coordinate = new Coordinates(latitude + 0.0001,longitude + 0.0001);
+		Map<Coordinates, Rating> result = processedDataDao.getRatingAroundCoordinate(coordinate, TimeOfDay.EVENING, Transport.PRIVATE_CAR, radius);
+		
+		Map<Coordinates, Rating> expected = new HashMap<Coordinates, Rating>();
+		expected.put(new Coordinates(latitude, longitude), Rating.RED);
+		expected.put(new Coordinates(latitude + 0.00005,longitude + 0.00005), Rating.GREEN);
+		
+		
+		assertEquals(expected, result);
 	}
 	
 	@Test

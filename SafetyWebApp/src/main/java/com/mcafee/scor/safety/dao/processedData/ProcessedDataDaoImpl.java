@@ -17,7 +17,7 @@ import com.mcafee.scor.safety.model.processedData.ProcessedData;
 
 public class ProcessedDataDaoImpl extends CommonBaseDaoImpl<ProcessedData> implements ProcessedDataDao{
 
-	private static final double TOLERANCE = 0.01;
+	private static final double TOLERANCE = 0.0001;
 
 	@Override
 	public void updateCrimeCount(List<ProcessedData> processedDataList) {
@@ -58,7 +58,8 @@ public class ProcessedDataDaoImpl extends CommonBaseDaoImpl<ProcessedData> imple
 			trans = session.beginTransaction();
 			
 			String queryString = "From ProcessedData "+ 
-				"Where timeOfDay=:timeOfDay and victimTransport=:victimTransport and  acos(sin(radians(:latitude))*sin(radians(latitude)) + cos(radians(:latitude))*cos(radians(latitude))*cos(radians(longitude)-radians(:longitude))) * 6371 * 1000 < :rad";
+				"Where timeOfDay=:timeOfDay and victimTransport=:victimTransport "
+				+ "and  6371 * 1000 * sqrt( pow(radians( latitude - :latitude ), 2) + pow(radians( longitude - :longitude ), 2) ) < :rad";
 			
 			Query query = session.createQuery(queryString);
 			query.setDouble("latitude", coordinate.getLatitude());
