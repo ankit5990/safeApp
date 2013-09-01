@@ -2,7 +2,7 @@ package com.mcafee.scor.safety.model;
 
 
 public enum Rating {
-	UNRATED(0),
+	GRAY(0),// gray is for unrated
 	RED(1),
 	YELLOW(2),
 	GREEN(3);
@@ -19,7 +19,7 @@ public enum Rating {
 				return rating;
 			}
 		}
-		return UNRATED;
+		return GRAY;
 	}
 	
 	public int getIntegerValue(){

@@ -104,7 +104,7 @@ public class ProcessedDataDaoImpl extends CommonBaseDaoImpl<ProcessedData> imple
 			List<ProcessedData> dataList = query.list();
 			
 			if(dataList == null || dataList.size()==0){
-				return Rating.UNRATED;
+				return Rating.GRAY;
 			}
 			
 			return dataList.get(0).getRating();

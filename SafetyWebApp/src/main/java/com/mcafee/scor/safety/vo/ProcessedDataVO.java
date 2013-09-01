@@ -40,7 +40,7 @@ public class ProcessedDataVO {
 		processedData.setLatitude(rawData.getLatitude());
 		processedData.setLongitude(rawData.getLongitude());
 		processedData.setNumberOfCrimes(0);
-		processedData.setRating(Rating.UNRATED);
+		processedData.setRating(Rating.GRAY);
 		processedData.setStreetName(rawData.getStreetName());
 		processedData.setTimeOfDay(TimeOfDay.getByTimeMillies(rawData.getTime()));
 		processedData.setVictimTransport(rawData.getVictimTransport());

@@ -35,7 +35,7 @@ public class ProcessedData implements Serializable{
 	private TimeOfDay timeOfDay;
 	private Transport victimTransport;
 	private int numberOfCrimes;
-	private Rating rating = Rating.UNRATED;	//assigning default value for rating for schema
+	private Rating rating = Rating.GRAY;	//assigning default value for rating for schema
 	
 	
 	public ProcessedData(ProcessedData processedData) {
