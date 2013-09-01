@@ -1,7 +1,5 @@
 package com.mcafee.scor.safety.action;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +11,7 @@ import com.mcafee.scor.safety.model.Coordinates;
 import com.mcafee.scor.safety.model.TimeOfDay;
 import com.mcafee.scor.safety.model.Transport;
 import com.mcafee.scor.safety.service.GoogleMapService;
-import com.mcafee.scor.safety.service.RatedCoordinate;
+import com.mcafee.scor.safety.vo.RatedPath;
 
 @Controller
 public class PathAction {
@@ -32,7 +30,7 @@ public class PathAction {
 	 * @return
 	 */
 	@RequestMapping(value="/getRatedPath.do",method={RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody List<RatedCoordinate> getRatedPathAction(@RequestParam("start")String start,
+	public @ResponseBody RatedPath getRatedPathAction(@RequestParam("start")String start,
 			@RequestParam("end") String end,
 			@RequestParam("timeMillies") long timeMillies,
 			@RequestParam("transport") int transport){

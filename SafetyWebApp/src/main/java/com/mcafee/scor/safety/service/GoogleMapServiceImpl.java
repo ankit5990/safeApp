@@ -18,6 +18,7 @@ import com.mcafee.scor.safety.dao.processedData.ProcessedDataDao;
 import com.mcafee.scor.safety.model.Coordinates;
 import com.mcafee.scor.safety.model.TimeOfDay;
 import com.mcafee.scor.safety.model.Transport;
+import com.mcafee.scor.safety.vo.RatedPath;
 
 
 
@@ -32,7 +33,7 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 	private ProcessedDataDao processedDataDao;
 	
 	@Override
-	public List<RatedCoordinate> getRatedPath(Coordinates start, 
+	public RatedPath getRatedPath(Coordinates start, 
 			Coordinates end, TimeOfDay timeOfDay, Transport transport){
 		RestTemplate restTemplate = new RestTemplate();
 		String query = "http://maps.googleapis.com/maps/api/directions/json?origin={"+ORIGIN_LAT+"},{"+ORIGIN_LONG+"}&"
@@ -55,7 +56,7 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 		return null;
 	}
 
-	private List<RatedCoordinate> extractPath(JsonObject json) {
+	private RatedPath extractPath(JsonObject json) {
 		String callStatus = json.get("status").getAsString();
 		if(json.entrySet().size()!=2){
 			logger.error("invalid json object recieved");
@@ -66,17 +67,24 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 			JsonElement routes = json.get("routes");
 			JsonElement legs = routes.getAsJsonArray().get(0).getAsJsonObject().get("legs");
 			JsonElement steps = legs.getAsJsonArray().get(0).getAsJsonObject().get("steps");
-			
+
 			JsonArray stepsArray = steps.getAsJsonArray();
 			
-			stepsArray = Commonutilities.limitJsonArraySize(stepsArray, 7);
+			JsonArray wayPointsArray = Commonutilities.limitJsonArraySize(stepsArray, 7);
 			List<RatedCoordinate> ratedCoordinateList = new ArrayList<RatedCoordinate>();
+			List<RatedCoordinate> wayPoints = new ArrayList<RatedCoordinate>();
 			
+			int wayPointIndex = 0;
 			for (int i = 0; i < stepsArray.size(); i++) {
 				JsonObject step = stepsArray.get(i).getAsJsonObject();
 				JsonObject start_location  = step.get("start_location").getAsJsonObject();
 				RatedCoordinate ratedCoordinate = getRatedCoordinateForLocationJson(start_location);				
 				ratedCoordinateList.add(ratedCoordinate);
+				
+				if(step.equals(wayPointsArray.get(wayPointIndex))){
+					wayPoints.add(ratedCoordinate);
+					wayPointIndex++;
+				}
 			}
 			
 			if(stepsArray.size() > 0){
@@ -84,8 +92,14 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 				JsonObject end_location  = step.get("end_location").getAsJsonObject();
 				RatedCoordinate lastCoordinate = getRatedCoordinateForLocationJson(end_location);
 				ratedCoordinateList.add(lastCoordinate);
+				
+				wayPoints.add(lastCoordinate);
 			}
-			return ratedCoordinateList;
+			
+			RatedPath ratedPath = new RatedPath();
+			ratedPath.setCompleteRatedPath(ratedCoordinateList);
+			ratedPath.setWayPoints(wayPoints);
+			return ratedPath;
 		}
 		logger.error("google api call failed");
 		return null;
