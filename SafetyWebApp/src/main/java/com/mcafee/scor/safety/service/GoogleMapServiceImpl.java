@@ -70,21 +70,13 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 
 			JsonArray stepsArray = steps.getAsJsonArray();
 			
-			JsonArray wayPointsArray = Commonutilities.limitJsonArraySize(stepsArray, 7);
 			List<RatedCoordinate> ratedCoordinateList = new ArrayList<RatedCoordinate>();
-			List<RatedCoordinate> wayPoints = new ArrayList<RatedCoordinate>();
 			
-			int wayPointIndex = 0;
 			for (int i = 0; i < stepsArray.size(); i++) {
 				JsonObject step = stepsArray.get(i).getAsJsonObject();
 				JsonObject start_location  = step.get("start_location").getAsJsonObject();
 				RatedCoordinate ratedCoordinate = getRatedCoordinateForLocationJson(start_location);				
 				ratedCoordinateList.add(ratedCoordinate);
-				
-				if(step.equals(wayPointsArray.get(wayPointIndex))){
-					wayPoints.add(ratedCoordinate);
-					wayPointIndex++;
-				}
 			}
 			
 			if(stepsArray.size() > 0){
@@ -92,13 +84,11 @@ public class GoogleMapServiceImpl implements GoogleMapService{
 				JsonObject end_location  = step.get("end_location").getAsJsonObject();
 				RatedCoordinate lastCoordinate = getRatedCoordinateForLocationJson(end_location);
 				ratedCoordinateList.add(lastCoordinate);
-				
-				wayPoints.add(lastCoordinate);
 			}
 			
 			RatedPath ratedPath = new RatedPath();
 			ratedPath.setCompleteRatedPath(ratedCoordinateList);
-			ratedPath.setWayPoints(wayPoints);
+			ratedPath.setWayPoints(Commonutilities.limitListSize(ratedCoordinateList, 8));
 			return ratedPath;
 		}
 		logger.error("google api call failed");
