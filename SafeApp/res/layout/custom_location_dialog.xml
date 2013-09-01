@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+ android:layout_height="wrap_content" 
+  android:layout_width="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/dialog_layout_root"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:padding="10dp">
+ 
+ <TextView
+    android:id="@+id/selectDestinationTitle"
+    android:text="Enter Destination:"
+  android:layout_height="wrap_content"
+  android:layout_width="fill_parent" 
+  android:textSize="14sp"
+  android:textStyle="bold"/>
+<TextView
+    android:id="@+id/enterDestinationText"
+  android:layout_height="wrap_content"
+  android:layout_width="fill_parent" 
+  android:textSize="14sp"/>
+
+    <EditText
+        android:id="@+id/destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+         <requestFocus />
+         </EditText>
+    
+    <Button
+                 android:id="@+id/getRating_button"
+                 android:text="Get Route" 
+                 android:padding="10dip"
+                 android:background="@drawable/red_btn" style="@style/ButtonText"/>
+              </LinearLayout>
+              </ScrollView>

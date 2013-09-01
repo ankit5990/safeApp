@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SafeApp</string>
+    <string name="app_name">Safe Eye</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+
     <style name="ButtonText">
-    <item name="android:layout_width">fill_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textColor">#ffffff</item>
-    <item name="android:gravity">center</item>
-    <item name="android:layout_margin">20dp</item>
-    <item name="android:textSize">24sp</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:shadowColor">#000000</item>
-    <item name="android:shadowDx">1</item>
-    <item name="android:shadowDy">1</item>
-    <item name="android:shadowRadius">2</item>
-</style>
-    
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <string name="title_activity_web_view">Neighbourhood Ratings</string>
+    <string name="title_activity_plot_route">Requested Route</string>
+    <string name="rating_prompt">Choose a rating</string>
+     <string name="transport_prompt">Choose mode of transport</string>
+ 
+    <string-array name="rating_arrays">
+        <item>RED</item>
+        <item>YELLOW</item>
+        <item>GREEN</item>
+    </string-array>
+     <string-array name="transport_arrays">
+    <item>PEDESTRIAN</item>
+	<item>RICKSHAW</item>
+	<item>BUS</item>
+	<item>CAB</item>
+	<item>PRIVATE_CAR</item>
+    </string-array>
 
 </resources>
